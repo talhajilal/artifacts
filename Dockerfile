@@ -8,7 +8,8 @@ RUN yum -y --setopt=tsflags=nodocs update && \
     yum clean all
 
 EXPOSE 80
-
+CMD mkdir -p /var/www/html
+RUN echo "HelloDockerWorld" >> /var/www/html/index.html
 # Simple startup script to avoid some issues observed with container restart
 #ADD run-httpd.sh /run-httpd.sh
 #RUN chmod -v +x /run-httpd.sh
