@@ -2,7 +2,8 @@ version: 0.2
 
 
 phases:
-    install:
+  pre_build:
+    commands:
       - wget https://download.oracle.com/otn_software/linux/instantclient/193000/instantclient-basic-linux.x64-19.3.0.0.0dbru.zip
       - unzip instantclient-basic-linux.x64-19.3.0.0.0dbru.zip /lib
       - rm -rf instantclient-basic-linux.x64-19.3.0.0.0dbru.zip
@@ -10,6 +11,7 @@ phases:
       - source python_venv/bin/activate
       - pip install -r requirements.txt
   build:
+    commands:
       - sam package --template-file template.yml --s3-bucket zaftech --output-template-file packaged-template.yml
 artifacts:
     files: imagedefinitions.json
