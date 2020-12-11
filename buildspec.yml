@@ -9,9 +9,9 @@ phases:
     commands:
       - cd codepipeline
       - mkdir lib
+      - pip install -r codepipeline/requirements.txt
       - python -m venv python_venv
       - source python_venv/bin/activate
-      - pip install -r codepipeline/requirements.txt
       - cd python_venv/lib/python3.7/site-packages/
       - wget https://download.oracle.com/otn_software/linux/instantclient/193000/instantclient-basic-linux.x64-19.3.0.0.0dbru.zip
       - unzip instantclient-basic-linux.x64-19.3.0.0.0dbru.zip 
