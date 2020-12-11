@@ -7,8 +7,8 @@ phases:
     commands:  []
   build:
     commands:
-#      - python -m venv python_venv
-#      - source python_venv/bin/activate
+      - python -m venv python_venv
+      - source python_venv/bin/activate
       - cd codepipeline
       - pip install -r requirements.txt
       - mkdir lib
