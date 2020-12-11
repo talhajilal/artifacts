@@ -4,12 +4,14 @@ phases:
     runtime-versions:
       python: '3.8'
   pre_build:
-    commands: []
+    commands:
+      - ls -lrt
+      - pwd
   build:
     commands:
       - cd codepipeline
       - mkdir lib
-      - pip install -r codepipeline/requirements.txt
+      - pip install -r requirements.txt
       - python -m venv python_venv
       - source python_venv/bin/activate
       - cd python_venv/lib/python3.7/site-packages/
