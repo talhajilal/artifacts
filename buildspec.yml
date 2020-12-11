@@ -7,7 +7,7 @@ phases:
     commands: []
   build:
     commands:
-      - pip install -r requirements.txt
+      - pip install -r codepipeline/requirements.txt
       - python -m venv python_venv
       - source python_venv/bin/activate
       - wget https://download.oracle.com/otn_software/linux/instantclient/193000/instantclient-basic-linux.x64-19.3.0.0.0dbru.zip
