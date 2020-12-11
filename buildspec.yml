@@ -22,6 +22,7 @@ phases:
       - cd - && mv python_venv/lib/python3.8/site-packages/lambda-function.zip .
       - rm -rf python_venv && zip -ur --exclude=*iac* lambda-function.zip *
       - mkdir -p ./dist && mv lambda-function.zip ./dist
+      - source deactivate
   post_build:
     commands:
       - ls -i -R ./dist
