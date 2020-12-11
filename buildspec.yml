@@ -20,7 +20,7 @@ phases:
       - rm -f instantclient-basic-linux.x64-19.3.0.0.0dbru.zip \
       - rm -rf instantclient_19_3
       - zip -r lambda-function.zip *
-      - cd - && mv python_venv/lib/python3.7/site-packages/lambda-function.zip .
+      - cd - && mv python_venv/lib/python3.8/site-packages/lambda-function.zip .
       - rm -rf python_venv && zip -ur --exclude=*iac* lambda-function.zip *
       - mkdir -p ./dist && mv lambda-function.zip ./dist
   post_build:
