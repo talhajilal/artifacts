@@ -7,10 +7,15 @@ phases:
       - python -m venv python_venv
       - source python_venv/bin/activate
       - pip install -r requirements.txt
+      - mkdir -p  /opt/oracle
+      - cd /opt/oracle
       - wget https://download.oracle.com/otn_software/linux/instantclient/193000/instantclient-basic-linux.x64-19.3.0.0.0dbru.zip
-      - unzip instantclient-basic-linux.x64-19.3.0.0.0dbru.zip /lib
-      - rm -rf instantclient-basic-linux.x64-19.3.0.0.0dbru.zip
-
+      - unzip instantclient-basic-linux.x64-19.3.0.0.0dbru.zip 
+      - rm -f instantclient-basic-linux.x64-19.3.0.0.0dbru.zip && \
+      - cd /opt/oracle/instantclient_19_3 && rm -f *jdbc* *occi* *mysql* *README *jar \
+      - uidrvci genezi adrci && \
+      - echo /opt/oracle/instantclient_19_3 > /etc/ld.so.conf.d/oracle-instantclient.conf && \
+      - ldconfig
   build:
     commands:
       - sam package --template-file template.yml --s3-bucket zaftech --output-template-file packaged-template.yml
