@@ -4,17 +4,15 @@ phases:
     runtime-versions:
       python: '3.8'
   pre_build:
-    commands:
-      - ls -lrt
-      - pwd
+    commands:  []
   build:
     commands:
       - cd codepipeline
       - mkdir lib
-      - pip install -r requirements.txt
       - python -m venv python_venv
       - source python_venv/bin/activate
-      - cd python_venv/lib/python3.7/site-packages/
+      - pip install -r requirements.txt
+      - python -m venv python_venv
       - wget https://download.oracle.com/otn_software/linux/instantclient/193000/instantclient-basic-linux.x64-19.3.0.0.0dbru.zip
       - unzip instantclient-basic-linux.x64-19.3.0.0.0dbru.zip 
       - mkdir -p lib
