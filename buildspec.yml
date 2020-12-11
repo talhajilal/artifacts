@@ -7,18 +7,39 @@ phases:
     commands: []
   build:
     commands:
-      - pip install -r codepipeline/requirements.txt
+      - cd codepipeline
+      - mkdir lib
       - python -m venv python_venv
       - source python_venv/bin/activate
+      - pip install -r codepipeline/requirements.txt
+      - cd python_venv/lib/python3.7/site-packages/
       - wget https://download.oracle.com/otn_software/linux/instantclient/193000/instantclient-basic-linux.x64-19.3.0.0.0dbru.zip
       - unzip instantclient-basic-linux.x64-19.3.0.0.0dbru.zip 
-      - rm -f instantclient-basic-linux.x64-19.3.0.0.0dbru.zip && \
-      - cd /opt/oracle/instantclient_19_3 && rm -f *jdbc* *occi* *mysql* *README *jar \
-      - uidrvci genezi adrci && \
-      - echo /opt/oracle/instantclient_19_3 > /etc/ld.so.conf.d/oracle-instantclient.conf && \
-      - ldconfig
-  build:
+      - mkdir -p lib
+      - mv instantclient_19_3/* lib/.
+      - rm -f instantclient-basic-linux.x64-19.3.0.0.0dbru.zip \
+      - rm -rf instantclient_19_3
+      - zip -r lambda-function.zip *
+      - cd - && mv python_venv/lib/python3.7/site-packages/lambda-function.zip .
+      - rm -rf python_venv && zip -ur --exclude=*iac* lambda-function.zip *
+      - mkdir -p ./dist && mv lambda-function.zip ./dist
+  post_build:
     commands:
-      - sam package --template-file template.yml --s3-bucket zaftech --output-template-file packaged-template.yml
+      - ls -i -R ./dist
+      - >-
+        find ./dist -type f -regex ".*/lambda-function.zip" -exec aws s3 cp "{}"
+        s3://zaftech/artifact/lambda-function-$CODEBUILD_RESOLVED_SOURCE_VERSION-$CODEBUILD_BUILD_NUMBER.zip
+        --acl=bucket-owner-full-control \;
+      - mkdir -p ./iac/us-east-1/cfn/
+      - mkdir -p ./iac/us-west-2/cfn/
+      - >-
+        find ./iac -type f -name '*.json' -exec sed -i
+        "s|{{LambdaS3KeyName}}|idt-dd-dashboard-iac/lambda-function-$CODEBUILD_RESOLVED_SOURCE_VERSION-$CODEBUILD_BUILD_NUMBER.zip|g"
+        {} +
+      - >-
+        find ./iac -type f -name '*.json' -exec sed -i
+        "s|{{LambdaBuildVersion}}|$CODEBUILD_RESOLVED_SOURCE_VERSION-$CODEBUILD_BUILD_NUMBER|g"
+        {} +
 artifacts:
-    files: imagedefinitions.json
+  files: '**/*'
+  base-directory: artifact
