@@ -20,23 +20,23 @@ phases:
       - rm -rf instantclient_19_3
       - zip -r lambda-function.zip *
       - mkdir -p ./dist && mv lambda-function.zip ./dist
-  post_build:
-    commands:
-      - ls -i -R ./dist
-      - >-
-        find ./dist -type f -regex ".*/lambda-function.zip" -exec aws s3 cp "{}"
-        s3://zaftech/artifact/lambda-function-$CODEBUILD_RESOLVED_SOURCE_VERSION-$CODEBUILD_BUILD_NUMBER.zip
-        --acl=bucket-owner-full-control \;
-      - mkdir -p ./iac/us-east-1/cfn/
-      - mkdir -p ./iac/us-west-2/cfn/
-      - >-
-        find ./iac -type f -name '*.json' -exec sed -i
-        "s|{{LambdaS3KeyName}}|idt-dd-dashboard-iac/lambda-function-$CODEBUILD_RESOLVED_SOURCE_VERSION-$CODEBUILD_BUILD_NUMBER.zip|g"
-        {} +
-      - >-
-        find ./iac -type f -name '*.json' -exec sed -i
-        "s|{{LambdaBuildVersion}}|$CODEBUILD_RESOLVED_SOURCE_VERSION-$CODEBUILD_BUILD_NUMBER|g"
-        {} +
+ # post_build:
+ #   commands:
+ #     - ls -i -R ./dist
+ #     - >-
+ #       find ./dist -type f -regex ".*/lambda-function.zip" -exec aws s3 cp "{}"
+ #      s3://zaftech/artifact/lambda-function-$CODEBUILD_RESOLVED_SOURCE_VERSION-$CODEBUILD_BUILD_NUMBER.zip
+ #       --acl=bucket-owner-full-control \;
+ #     - mkdir -p ./iac/us-east-1/cfn/
+ #     - mkdir -p ./iac/us-west-2/cfn/
+ #     - >-
+ #       find ./iac -type f -name '*.json' -exec sed -i
+ #       "s|{{LambdaS3KeyName}}|idt-dd-dashboard-iac/lambda-function-$CODEBUILD_RESOLVED_SOURCE_VERSION-$CODEBUILD_BUILD_NUMBER.zip|g"
+ #       {} +
+ #     - >-
+#        find ./iac -type f -name '*.json' -exec sed -i
+#        "s|{{LambdaBuildVersion}}|$CODEBUILD_RESOLVED_SOURCE_VERSION-$CODEBUILD_BUILD_NUMBER|g"
+#        {} +
 artifacts:
   files: '**/*'
-  base-directory: artifact
+  base-directory: artifacts123
