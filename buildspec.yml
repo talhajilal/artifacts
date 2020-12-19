@@ -13,7 +13,6 @@ phases:
       - pip install -r requirements.txt
       - mkdir lib
       - mkdir -p lib
-      - mv instantclient_19_3/* lib/.
       - rm -rf instantclient_19_3
       - zip -r lambda-function.zip *
       - mkdir -p ./dist && mv lambda-function.zip ./dist
