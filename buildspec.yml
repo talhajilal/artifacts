@@ -39,4 +39,4 @@ phases:
 #        {} +
 artifacts:
   files: '**/*'
-  base-directory: artifacts123
+  base-directory: artifacts
