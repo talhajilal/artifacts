@@ -12,21 +12,21 @@ phases:
       - cd codepipeline
       - pip install -r requirements.txt
       - mkdir lib
-      - wget https://download.oracle.com/otn_software/linux/instantclient/193000/instantclient-basic-linux.x64-19.3.0.0.0dbru.zip
-      - unzip instantclient-basic-linux.x64-19.3.0.0.0dbru.zip 
+ #     - wget https://download.oracle.com/otn_software/linux/instantclient/193000/instantclient-basic-linux.x64-19.3.0.0.0dbru.zip
+ #     - unzip instantclient-basic-linux.x64-19.3.0.0.0dbru.zip 
       - mkdir -p lib
       - mv instantclient_19_3/* lib/.
-      - rm -f instantclient-basic-linux.x64-19.3.0.0.0dbru.zip \
+#     - rm -f instantclient-basic-linux.x64-19.3.0.0.0dbru.zip \
       - rm -rf instantclient_19_3
       - zip -r lambda-function.zip *
       - mkdir -p ./dist && mv lambda-function.zip ./dist
- # post_build:
- #   commands:
- #     - ls -i -R ./dist
- #     - >-
- #       find ./dist -type f -regex ".*/lambda-function.zip" -exec aws s3 cp "{}"
- #      s3://zaftech/artifact/lambda-function-$CODEBUILD_RESOLVED_SOURCE_VERSION-$CODEBUILD_BUILD_NUMBER.zip
- #       --acl=bucket-owner-full-control \;
+  post_build:
+   commands:
+      - ls -i -R ./dist
+      - >-
+        find ./dist -type f -regex ".*/lambda-function.zip" -exec aws s3 cp "{}"
+       s3://zaftech/artifact/lambda-function-$CODEBUILD_RESOLVED_SOURCE_VERSION-$CODEBUILD_BUILD_NUMBER.zip
+        --acl=bucket-owner-full-control \;
  #     - mkdir -p ./iac/us-east-1/cfn/
  #     - mkdir -p ./iac/us-west-2/cfn/
  #     - >-
