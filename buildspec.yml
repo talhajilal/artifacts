@@ -1,21 +1,19 @@
-version: '0.2'
+version: 0.2
+
 phases:
   install:
     runtime-versions:
-      python: '3.8'
+      java: corretto11
   pre_build:
-    commands:  []
+    commands:
+      - echo Nothing to do in the pre_build phase...
   build:
     commands:
-      - python -m venv python_venv
-      - source python_venv/bin/activate
-      - cd codepipeline
-      - pip install -r requirements.txt
-      - mkdir lib
-      - mkdir -p lib
-      - rm -rf instantclient_19_3
-      - zip -r lambda-function.zip *
-      - mkdir -p ./dist && mv lambda-function.zip ./dist
+      - echo Build started on `date`
+      - mvn install
+  post_build:
+    commands:
+      - echo Build completed on `date`
 artifacts:
-  files: '**/*'
-#  base-directory: artifacts
+  files:
+    - target/messageUtil-1.0.jar
