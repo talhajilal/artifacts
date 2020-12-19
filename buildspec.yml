@@ -19,4 +19,4 @@ phases:
       - mkdir -p ./dist && mv lambda-function.zip ./dist
 artifacts:
   files: '**/*'
-  base-directory: artifacts
+#  base-directory: artifacts
