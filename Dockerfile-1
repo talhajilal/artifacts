@@ -1,0 +1,2 @@
+FROM 688230286630.dkr.ecr.ca-central-1.amazonaws.com/centos:latest
+RUN yum install -y httpd
